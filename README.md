@@ -19,7 +19,8 @@ $ source ~/.bash_profile
 
 (Note that you will clone your specific repository, not pa1-public)
 
-This will set things up so you can directly run the "pa1-runner" command.
+This will set things up so you can directly run the `pa1-runner` command.
 It won't work unless you perform these steps.
 
-See [this description](./description.pdf) for instructions on completing the assignment.
+
+See **[this description](./description.pdf)** for instructions on completing the assignment.
