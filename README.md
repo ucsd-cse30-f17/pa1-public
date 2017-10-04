@@ -11,7 +11,7 @@ $ echo "alias pa1-runner='/home/linux/ieng6/cs30f/public/pa1-runner'" >> ~/.bash
 $ source ~/.bash_profile
 ```
 
-This will set things up so you can directly run the {\tt pa1-runner} command.
+This will set things up so you can directly run the "pa1-runner" command.
 It won't work unless you perform these steps.
 
 See [this description](./description.pdf) for instructions.
