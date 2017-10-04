@@ -1,4 +1,4 @@
-**This is not yet final; this message will be removed when it is.**
+# PA1 -- Machine Code
 
 Visit this link, which will copy the starter repository to your Github account:
 
