@@ -1,4 +1,4 @@
-# PA1 -- Machine Code
+# PA1 – Working with Machine Code
 
 Visit this link, which will copy the starter repository to your Github account:
 
