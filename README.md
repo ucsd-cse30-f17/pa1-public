@@ -1,3 +1,5 @@
+**This is not yet final; this message will be removed when it is.**
+
 Copy the starter repository to your Github account. Then log into an ieng6
 machine and clone it.
 
