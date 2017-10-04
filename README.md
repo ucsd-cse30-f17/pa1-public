@@ -1,1 +1,1 @@
-See [./description.pdf](this description) for instructions.
+See [this description](./description.pdf) for instructions.
