@@ -15,26 +15,6 @@
 
 \begin{document}
 
-\section{Setup}
-
-Visit this link:
-
-\url{}
-
-to copy the starter repository to your Github account. Then log into an ieng6
-machine and clone it.
-
-Next, when logged into ieng6 or the pi-cluster (either should work), run these
-two commands:
-
-\begin{verbatim}
-$ echo "alias pa1-runner='/home/linux/ieng6/cs30f/public/pa1-runner'" >> ~/.bash_profile
-$ source ~/.bash_profile
-\end{verbatim}
-
-This will set things up so you can directly run the {\tt pa1-runner} command.
-It won't work unless you perform these steps.
-
 \section{ARM Introduction}
 
 In this assignment, you'll be writing some short programs directly in machine
@@ -99,7 +79,7 @@ registers with constants:
 \end{figure}
 
 The key difference is the {\tt 1} instead of a {\tt 0} in bit 25, which makes
-the instruction operate in immediate mode. Then, Imm is an binary value that is
+the instruction operate in immediate mode. Then, Imm is a binary value that is
 used in place of $R_m$ above. So, for example, if we used {\tt 00001111} as
 bits 0-7 of of an addition instruction, it would add 15 to the value of the
 $R_n$ register and store it in $R_d$.
@@ -179,23 +159,25 @@ and the $m$-labelled source register would hold \r{1} ($x$). Since addition
 commutes, we could have picked either order.)
 
 Now we need to take that instruction and turn it into a binary file. Note that
-a file containing \emph{text} 1's and 0's is not a binary file [REF cmu binary
-file link]. We don't want a file containing a sequence of bytes representing
-ASCII; we want a file containing exactly the four bytes of the instruction
-above, in the right format and order.
+a file containing \emph{text} 1's and 0's is not a binary file (a good resource
+on this is
+\url{https://www.cs.umd.edu/class/sum2003/cmsc311/Notes/BitOp/asciiBin.html}).
+We don't want a file containing a sequence of bytes representing ASCII; we want
+a file containing exactly the four bytes of the instruction above, in the right
+format and order.
 
 One of the most straightforward ways to do this is with the {\tt xxd} command.
 It is useful for a number of things, where one mode of operation is taking
 files containing hexadecimal text and converting them to the corresponding
-binary files. So we can take a file that contains purely hexadecimal ASCII
-text, and produce a binary file. We'll show an example of that command in a
-moment, but first, we need to think a little bit about endianness and ordering.
+binary files. We'll show an example of that command in a moment, but first, we
+need to think a little bit about the ordering of bits.
 
 All of the instructions we've shown have had the 0th bit all the way to the
 right. This is a convention for writing out ARM machine code because it reads
 well left-to-right -- first the opcode, then the arguments. However, the actual
-order of the bytes is the reverse of this. Further, the bytes themselves are
-interpreted in little-endian order. Let's do an example to process this
+order of the bits is the reverse of this. Further, the bytes themselves are
+interpreted in what's called ``little-endian'' order, meaning the ``ones''
+place is actually all the way to the left. Let's do an example to process this
 conversion.
 
 First, we re-organize the breaks to see the instruction in terms of byte
@@ -303,8 +285,15 @@ A few extra notes:
 \item We can use {\tt xxd} to see our instruction in binary again:
 
 \begin{verbatim}
-$ xxd -b add.bin
-00000000: 00000001 00000000 10000010 11100000                    ....
+$ xxd -b -p add.bin
+00000001 00000000 10000010 11100000
+\end{verbatim}
+
+Or in hexadecimal:
+
+\begin{verbatim}
+$ xxd -p add.bin
+01082e0
 \end{verbatim}
 
 \item An abbreviated process for getting to the appropriate hexadecimal from
@@ -363,12 +352,6 @@ for your computation.
 \item In {\tt quad.txt}, compute $2x^2 + yx - 7$
 \end{enumerate}
 
-If an operation would produce a number that is too large to represent in 32
-bits, you can simply use the part that doesn't overflow (the default for most
-instructions). For example, the result of multiplying 2,000,000,000 by itself
-requires more than 32 bits, so if that's an input as $x$ in {\tt quad.txt},
-it's fine if your program evaluates it to 0 (since the lower 32 bits of the
-answer will all be 0).
 
 \section{README}
 
@@ -381,17 +364,16 @@ mystery binaries do (they are short). You might do so via testing, or by
 converting the hexadecimal instructions back to binary code, and checking for
 opcodes. You will probably want to use commands like {\tt xxd -p -c 4
 mystery1.bin} to do this. In your explanation, you should explain how you get
-your final answers. For instance, you can say:\\ "the opcode of the first
-instruction is 0000, which represents a AND operation." or\\ "$R_d$ of the
-second instruction is 0001, which stores the result to register 1"\\ The
-explanation should be as specific as possible.
- 
-Also, you must provide
-at least three examples for each file with different values of x and y that you pass as 
-arguments to run the program. After you figure out what operations are used in these files,
-you must explain the meanings of these operations. (Notice that the arguments you passed in
-and the answer are all in decimal values. It might be helpful to convert them to other
-bases in order to understand the meaning of these operations)
+your final answers. For instance, you can say: ``the opcode of the first
+instruction is 0000, which represents a AND operation.'' or ``$R_d$ of the
+second instruction is 0001, which stores the result to register 1'' 
+
+Also, provide at three examples for each mystery file with different values of
+x and y that you pass as arguments to run the program. After you figure out
+what operations are used in these files, explain the meanings of these
+operations and results. (Notice that the arguments you passed in and the answer
+are all in decimal values. It might be helpful to convert them to other bases
+in order to understand the meaning of these operations)
 
 \item Starting from the instruction format in the textbook and this writeup, 
 we have to do two apparent reversing operations: one on the whole instruction, 
@@ -402,15 +384,16 @@ change the instruction to use some other register instead of r1, how would the
 machine code change and why?
 \end{enumerate}
 
-Please limit your answer to each question to no more than 100 words and present 
-them as clearly as possible.
+Please limit your answer to each question to no more than 100 words and present
+them as clearly as possible. For the mystery files, use 100 words or less for
+each file.
 
-\section{Handin and Fetching Files}
+\section{Handin}
 
 Commit and push your four text files to the Github repository that was created
 for you by 11:59PM on Tuesday, October 10. You can push up to one day late for
 a 20\% penalty. After you push, make sure to check on Github that the files are
-actually there; we will copy all of the repositories for grading a few minutes
+actually there; we will mark all of the repositories for grading a few minutes
 after midnight and grade precisely what is there.
 
 Your handin should include:
